@@ -33,7 +33,7 @@ namespace CS_Tabbed_Web_Browser
         /// <value>
         /// The <b>WebBrowser</b> control on the currently selected tab page.
         /// </value>
-        public WebBrowser SelectedWebBrowser
+        public WebBrowserCore SelectedWebBrowser
         {
             get
             {

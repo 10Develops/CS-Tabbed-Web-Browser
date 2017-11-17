@@ -22,7 +22,7 @@ namespace CS_Tabbed_Web_Browser
         /// <summary>
         /// The <b>WebBrowser</b> control displayed on the page.
         /// </summary>
-        private WebBrowser _browser;
+        private WebBrowserCore _browser;
 
         /// <summary>
         /// The current progress at the last <b>ProgressChanged</b> event.
@@ -44,7 +44,7 @@ namespace CS_Tabbed_Web_Browser
         /// <value>
         /// A <b>WebBrowser</b> object.
         /// </value>
-        public WebBrowser Browser
+        public WebBrowserCore Browser
         {
             get
             {
@@ -91,7 +91,7 @@ namespace CS_Tabbed_Web_Browser
         /// This constructor creates and displays a new <b>WebBrowser</b> control.
         /// </remarks>
         public WebBrowserTabPage() :
-            this(new WebBrowser())
+            this(new WebBrowserCore())
         {
             this.Browser.Navigate(string.Empty);
         }
@@ -102,7 +102,7 @@ namespace CS_Tabbed_Web_Browser
         /// <param name="browser">
         /// The <b>WebBrowser</b> control to display on the page.
         /// </param>
-        public WebBrowserTabPage(WebBrowser browser)
+        public WebBrowserTabPage(WebBrowserCore browser)
         {
             browser.Dock = DockStyle.Fill;
             this.Controls.Add(browser);
@@ -149,7 +149,14 @@ namespace CS_Tabbed_Web_Browser
             }
             else
             {
-                this.Text = documentTitle;
+                if (documentTitle.Length <= 35)
+                {
+                    this.Text = documentTitle;
+                }
+                else
+                {
+                    this.Text = documentTitle.Substring(0, 35) + "...";
+                }
             }
         }
 

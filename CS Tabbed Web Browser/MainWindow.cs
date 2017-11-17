@@ -24,7 +24,7 @@ namespace CS_Tabbed_Web_Browser
         /// <summary>
         /// The <b>WebBrowser</b> control on the current tab.
         /// </summary>
-        private WebBrowser currentBrowser;
+        private WebBrowserCore currentBrowser;
 
         #endregion
 
@@ -37,12 +37,12 @@ namespace CS_Tabbed_Web_Browser
         {
             // This call is required by the Windows Form Designer.
             InitializeComponent();
-
+            this.KeyPreview = true;
             // Add any initialization after the InitializeComponent() call.
 
             // Get the initial difference between the form width and address field width.
             // This value will be maintained as the window width changes.
-            this.addressFieldSizeOffset = this.Width - this.addressCombo.Width;
+            this.addressFieldSizeOffset = this.Width - this.addressTextBox.Width;
         }
 
         #endregion
@@ -57,17 +57,57 @@ namespace CS_Tabbed_Web_Browser
 
             if (Properties.Settings.Default.StartWithHomePage && !string.IsNullOrEmpty(Properties.Settings.Default.HomePage))
             {
-                // Load the home page.
-                this.currentBrowser.Navigate(Properties.Settings.Default.HomePage);
+                GoToSite(Properties.Settings.Default.HomePage);
             }
 
+            if (Properties.Settings.Default.Width != 0)
+            {
+                Width = Properties.Settings.Default.Width;
+            }
+
+            if (Properties.Settings.Default.Height != 0)
+            {
+                Height = Properties.Settings.Default.Height;
+            }
+
+            if (Properties.Settings.Default.WindowState == 0)
+            {
+                WindowState = FormWindowState.Normal;
+            }
+            else if (Properties.Settings.Default.WindowState == 2)
+            {
+                WindowState = FormWindowState.Maximized;
+            }
+
+            currentBrowser.ContextMenuStrip = cmsProperties;
+            homeMenuItem.Visible = Properties.Settings.Default.ShowHomePage;
+            tsmiShowMenuStrip.Checked = Properties.Settings.Default.ShowMenuStrip;
+            MainMenuStrip.Visible = Properties.Settings.Default.ShowMenuStrip;
             this.currentBrowser.StatusTextChanged += new EventHandler(currentBrowser_StatusTextChanged);
-            this.currentBrowser.Navigated += new WebBrowserNavigatedEventHandler(currentBrowser_Navigated);
             this.currentBrowser.CanGoBackChanged += new EventHandler(currentBrowser_CanGoBackChanged);
             this.currentBrowser.CanGoForwardChanged += new EventHandler(currentBrowser_CanGoForwardChanged);
-            this.currentBrowser.ProgressChanged += new WebBrowserProgressChangedEventHandler(currentBrowser_ProgressChanged);
             this.currentBrowser.DocumentTitleChanged += new EventHandler(currentBrowser_DocumentTitleChanged);
+            this.currentBrowser.Navigated += new WebBrowserNavigatedEventHandler(currentBrowser_Navigated);
             this.currentBrowser.DocumentCompleted += new WebBrowserDocumentCompletedEventHandler(currentBrowser_DocumentCompleted);
+            currentBrowser.NewWindow += new CancelEventHandler(currentBrowser_NewWindow);
+        }
+
+        private void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Control && e.KeyCode == Keys.S)
+            {
+                addressTextBox.ShortcutsEnabled = true;
+                currentBrowser.WebBrowserShortcutsEnabled = true;
+                e.SuppressKeyPress = true;
+                SearchInWeb(addressTextBox.Text);
+            }
+            if (e.Control && e.KeyCode == Keys.T)
+            {
+                addressTextBox.ShortcutsEnabled = true;
+                currentBrowser.WebBrowserShortcutsEnabled = true;
+                e.SuppressKeyPress = true;
+                tabs.AddTab();
+            }
         }
 
         private void MainWindow_SizeChanged(object sender, EventArgs e)
@@ -76,26 +116,22 @@ namespace CS_Tabbed_Web_Browser
             {
                 // Maintain the original width difference between the form and the address
                 // without allowing the address field to become less than 100 pixels wide.
-                this.addressCombo.Width = Math.Max(50, this.Width - this.addressFieldSizeOffset);
+                this.addressTextBox.Width = Math.Max(50, this.Width - this.addressFieldSizeOffset);
             }
         }
 
-        private void addressCombo_KeyDown(object sender, KeyEventArgs e)
+        private void addressTextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                // Navigate to the current address.
-                this.currentBrowser.Navigate(this.addressCombo.Text);
-
-                // Prevent the sound that indicates an invalid key press.
                 e.SuppressKeyPress = true;
+                GoToSite(addressTextBox.Text);
             }
         }
 
         private void goButton_Click(object sender, EventArgs e)
         {
-            // Navigate to the current address.
-            this.currentBrowser.Navigate(this.addressCombo.Text);
+            GoToSite(addressTextBox.Text);
         }
 
         private void tabs_SelectedIndexChanged(object sender, EventArgs e)
@@ -122,52 +158,35 @@ namespace CS_Tabbed_Web_Browser
             if (url == null)
             {
                 // There is no current address.
-                this.addressCombo.Text = string.Empty;
+                this.addressTextBox.Text = string.Empty;
 
                 // The user cannot refresh a page that doesn't exist.
                 this.refreshMenuItem.Enabled = false;
                 this.refreshButton.Enabled = false;
+                refreshTSMI.Enabled = false;
             }
             else
             {
                 // Display the current page address in the address bar.
-                this.addressCombo.Text = url.ToString();
+                this.addressTextBox.Text = url.ToString();
 
                 // Allow the user to refresh the current page.
                 this.refreshMenuItem.Enabled = true;
                 this.refreshButton.Enabled = true;
+                refreshTSMI.Enabled = true;
             }
 
             // Display the current page's status text in the status bar.
-            this.browserStatusTextLabel.Text = this.currentBrowser.StatusText;
-
-            WebBrowserTabPage tab = this.tabs.SelectedWebBrowserTagPage;
-            long lastCurrentProgress = tab.LastCurrentProgress;
-            long lastMaximumProgress = tab.LastMaximumProgress;
-
-            if (lastMaximumProgress > 0L && lastCurrentProgress > 0L)
+            if (currentBrowser.StatusText != "")
             {
-                // Display the current progress.
-                this.pageLoadProgress.Visible = true;
-                this.pageLoadProgress.Value = (int)Math.Round(((double)(100 * lastCurrentProgress / lastMaximumProgress)));
+                pnlStatus.Visible = true;
+                this.lblStatus.Text = this.currentBrowser.StatusText;
             }
             else
             {
-                // Hide and reset the progress bar
-                this.pageLoadProgress.Visible = false;
-                this.pageLoadProgress.Value = 0;
+                pnlStatus.Visible = false;
             }
         }
-
-        private void pageLoadProgress_VisibleChanged(object sender, EventArgs e)
-        {
-            bool canStop = this.pageLoadProgress.Visible;
-
-            // The loading can only be stopped when a page is loading.
-            this.stopMenuItem.Enabled = canStop;
-            this.stopButton.Enabled = canStop;
-        }
-
         #region Main Menu Event Handlers
 
         #region File Menu Event Handler
@@ -199,8 +218,6 @@ namespace CS_Tabbed_Web_Browser
         private void refreshMenuItem_Click(object sender, EventArgs e)
         {
             this.currentBrowser.Refresh();
-
-            this.pageLoadProgress.Visible = true;
         }
 
         private void stopMenuItem_Click(object sender, EventArgs e)
@@ -224,21 +241,111 @@ namespace CS_Tabbed_Web_Browser
 
         private void homeMenuItem_Click(object sender, EventArgs e)
         {
-            this.currentBrowser.Navigate(Properties.Settings.Default.HomePage);
+            this.currentBrowser.NavigateWeb(Properties.Settings.Default.HomePage);
         }
 
+        private void tsmiShowMenuStrip_Click(object sender, EventArgs e)
+        {
+            tsmiShowMenuStrip.Checked = !tsmiShowMenuStrip.Checked;
+            MainMenuStrip.Visible = tsmiShowMenuStrip.Checked;
+            Properties.Settings.Default.ShowMenuStrip = tsmiShowMenuStrip.Checked;
+        }
+
+        private void MainWindow_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Properties.Settings.Default.Width = Width;
+            Properties.Settings.Default.Height = Height;
+            if(WindowState == FormWindowState.Normal)
+            {
+                Properties.Settings.Default.WindowState = 0;
+            }
+            else if (WindowState == FormWindowState.Minimized)
+            {
+                Properties.Settings.Default.WindowState = 0;
+            }
+            else if (WindowState == FormWindowState.Maximized)
+            {
+                Properties.Settings.Default.WindowState = 2;
+            }
+                Properties.Settings.Default.Save();
+        }
+
+        private void tsmiSearchInGoogle_Click(object sender, EventArgs e)
+        {
+            SearchInGoogle(addressTextBox.Text);
+        }
+
+        private void tsmiSearchInBing_Click(object sender, EventArgs e)
+        {
+            SearchInBing(addressTextBox.Text);
+        }
+
+        private void tsmiSearchInYahoo_Click(object sender, EventArgs e)
+        {
+            SearchInYahoo(addressTextBox.Text);
+        }
+
+        private void searchButton_ButtonClick(object sender, EventArgs e)
+        {
+            SearchInWeb(addressTextBox.Text);
+        }
+
+        private void tsmiOptions_Click(object sender, EventArgs e)
+        {
+            optionsMenuItem.PerformClick();
+        }
+
+        private void updatesTSMI_Click(object sender, EventArgs e)
+        {
+            updatesMenuItem.PerformClick();
+        }
+
+        private void aboutTSMI_Click(object sender, EventArgs e)
+        {
+            aboutMenuItem.PerformClick();
+        }
+
+        private void backTSMI_Click(object sender, EventArgs e)
+        {
+            backMenuItem.PerformClick();
+        }
+
+        private void forwardTSMI_Click(object sender, EventArgs e)
+        {
+            forwardMenuItem.PerformClick();
+        }
+
+        private void refreshTSMI_Click(object sender, EventArgs e)
+        {
+            refreshMenuItem.PerformClick();
+        }
         #endregion
 
         #region Tools Menu Event Handler
 
         private void optionsMenuItem_Click(object sender, EventArgs e)
         {
-            using(OptionsDialogue dialogue = new OptionsDialogue(this.currentBrowser.Url.ToString()))
+            using (OptionsDialogue dialogue = new OptionsDialogue(this.currentBrowser.Url.ToString()))
             {
                 dialogue.ShowDialog();
             }
         }
 
+        #endregion
+
+        #region Help Menu Event Handler
+
+        private void updatesMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdatesForm updatesForm = new UpdatesForm();
+            updatesForm.Show();
+        }
+
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutForm aboutForm = new AboutForm();
+            aboutForm.Show();
+        }
         #endregion
 
         #endregion
@@ -287,16 +394,15 @@ namespace CS_Tabbed_Web_Browser
         private void currentBrowser_StatusTextChanged(object sender, EventArgs e)
         {
             // Display the current page's status text in the status bar.
-            this.browserStatusTextLabel.Text = this.currentBrowser.StatusText;
-        }
-
-        private void currentBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
-        {
-            // Display the progress bar.
-            this.pageLoadProgress.Visible = true;
-
-            // Display the current page address in the address bar.
-            this.addressCombo.Text = this.currentBrowser.Url.ToString();
+            if (currentBrowser.StatusText != "")
+            {
+                pnlStatus.Visible = true;
+                this.lblStatus.Text = this.currentBrowser.StatusText;
+            }
+            else
+            {
+                pnlStatus.Visible = false;
+            }
         }
 
         private void currentBrowser_CanGoBackChanged(object sender, EventArgs e)
@@ -305,6 +411,7 @@ namespace CS_Tabbed_Web_Browser
 
             this.backButton.Enabled = canGoBack;
             this.backMenuItem.Enabled = canGoBack;
+            backTSMI.Enabled = canGoBack;
         }
 
         private void currentBrowser_CanGoForwardChanged(object sender, EventArgs e)
@@ -313,23 +420,7 @@ namespace CS_Tabbed_Web_Browser
 
             this.forwardButton.Enabled = canGoForward;
             this.forwardMenuItem.Enabled = canGoForward;
-        }
-
-        private void currentBrowser_ProgressChanged(object sender, WebBrowserProgressChangedEventArgs e)
-        {
-            this.pageLoadProgress.Visible = true;
-
-            if (e.MaximumProgress > 0L && e.CurrentProgress > 0L)
-            {
-                // Display the current progress.
-                this.pageLoadProgress.Value = (int)Math.Round(((double)(100 * e.CurrentProgress / e.MaximumProgress)));
-            }
-            else if(e.MaximumProgress == 0L && e.CurrentProgress == 0L)
-            {
-                // Hide and reset the progress bar.
-                this.pageLoadProgress.Visible = false;
-                this.pageLoadProgress.Value = 0;
-            }
+            forwardTSMI.Enabled = canGoForward;
         }
 
         private void currentBrowser_DocumentTitleChanged(object sender, EventArgs e)
@@ -337,12 +428,31 @@ namespace CS_Tabbed_Web_Browser
             this.DisplayPageTitle();
         }
 
+        private void currentBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
+        {
+            this.addressTextBox.Text = this.currentBrowser.Url.ToString();
+        }
+
         private void currentBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             this.refreshMenuItem.Enabled = true;
             this.refreshButton.Enabled = true;
+            refreshTSMI.Enabled = true;
         }
 
+        private void currentBrowser_NewWindow(object sender, CancelEventArgs e)
+        {
+            try
+            {
+                HtmlElement link = currentBrowser.Document.ActiveElement;
+                Uri urlNavigated = new Uri(link.GetAttribute("href"));
+                tabs.AddTab();
+                currentBrowser.NavigateWeb(urlNavigated.ToString());
+                addressTextBox.Text = urlNavigated.ToString();
+            }
+            catch (UriFormatException){ }
+            e.Cancel = true;
+        }
         #endregion
 
         #endregion
@@ -369,7 +479,64 @@ namespace CS_Tabbed_Web_Browser
                 this.Text = String.Format("{0} - {1}", documentTitle, Application.ProductName);
             }
         }
+        private void SearchInWeb(string text)
+        {
+            if(Properties.Settings.Default.DefaultSearchEngine == 0)
+            {
+                SearchInGoogle(text);
+            }
 
-        #endregion
+            if (Properties.Settings.Default.DefaultSearchEngine == 1)
+            {
+                SearchInBing(text);
+            }
+
+            if (Properties.Settings.Default.DefaultSearchEngine == 2)
+            {
+                SearchInYahoo(text);
+            }
+        }
+        private void SearchInGoogle(string text)
+        {
+            GoToSite("https://www.google.com/search?q=" + text);
+        }
+
+        private void SearchInBing(string text)
+        {
+            GoToSite("https://www.bing.com/search?q=" + text);
+        }
+
+        private void SearchInYahoo(string text)
+        {
+            GoToSite("https://search.yahoo.com/search?p=" + text);
+        }
+
+        private void GoToSite(string Url)
+        {
+            if (Url.Contains(".com") || Url.Contains(".net") || Url.Contains(".org") || Url.Contains(".am") || Url.Contains(".ru") || Url.Contains(".us"))
+            {
+                if (Url.StartsWith("http://"))
+                {
+                    this.currentBrowser.NavigateWeb(Url);
+                }
+                else if (Url.StartsWith("https://"))
+                {
+                    this.currentBrowser.NavigateWeb(Url);
+                }
+                else if (Url.StartsWith("ftp://"))
+                {
+                    this.currentBrowser.NavigateWeb(Url);
+                }
+                else
+                {
+                    currentBrowser.NavigateWeb("http://" + Url);
+                }
+            }
+            else
+            {
+                 SearchInWeb(addressTextBox.Text);
+            }     
+        }
     }
+        #endregion
 }
