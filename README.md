@@ -4,6 +4,6 @@ Version 0.1:
 * Added update feature.
 * Changed status bar to dynamic.
 * Interface changes:
-** Removed progress bar.
-** Now you can customize item:
-*** Show Main Menu or not.
+* * Removed progress bar.
+* * Now you can customize item:
+* * * Show Main Menu or not.
