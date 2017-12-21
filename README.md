@@ -20,6 +20,6 @@ Version 0.2:
 * Added Google search for selected text in browser from context menu.
 * Fixed Stop button.
 * Fixed multi-tabbed browsing issues:
-* * Now status bar can show other tab page status.
+* * Now Status bar can show other tab page status.
 * Fixed Home button.
 * Added shortcuts.
