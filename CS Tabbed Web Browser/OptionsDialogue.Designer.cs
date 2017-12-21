@@ -36,11 +36,14 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OptionsDialogue));
             this.tc = new System.Windows.Forms.TabControl();
             this.tpGeneral = new System.Windows.Forms.TabPage();
+            this.gbDynamic = new System.Windows.Forms.GroupBox();
+            this.dynamicProgressBarToggle = new System.Windows.Forms.CheckBox();
+            this.dynamicStatusBarToggle = new System.Windows.Forms.CheckBox();
             this.gbSearch = new System.Windows.Forms.GroupBox();
             this.cbSearchEngine = new System.Windows.Forms.ComboBox();
             this.lblDefaultSearchEngine = new System.Windows.Forms.Label();
             this.gb = new System.Windows.Forms.GroupBox();
-            this.cbShowHomeButton = new System.Windows.Forms.CheckBox();
+            this.showHomeButtonToggle = new System.Windows.Forms.CheckBox();
             this.startupWithHomePageToggle = new System.Windows.Forms.CheckBox();
             this.homePageText = new System.Windows.Forms.TextBox();
             this.tpNet = new System.Windows.Forms.TabPage();
@@ -57,6 +60,7 @@
             homePageLabel = new System.Windows.Forms.Label();
             this.tc.SuspendLayout();
             this.tpGeneral.SuspendLayout();
+            this.gbDynamic.SuspendLayout();
             this.gbSearch.SuspendLayout();
             this.gb.SuspendLayout();
             this.tpNet.SuspendLayout();
@@ -129,6 +133,7 @@
             // 
             // tpGeneral
             // 
+            this.tpGeneral.Controls.Add(this.gbDynamic);
             this.tpGeneral.Controls.Add(this.gbSearch);
             this.tpGeneral.Controls.Add(this.gb);
             this.tpGeneral.Location = new System.Drawing.Point(4, 22);
@@ -139,6 +144,39 @@
             this.tpGeneral.Text = "General";
             this.tpGeneral.UseVisualStyleBackColor = true;
             // 
+            // gbDynamic
+            // 
+            this.gbDynamic.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbDynamic.Controls.Add(this.dynamicProgressBarToggle);
+            this.gbDynamic.Controls.Add(this.dynamicStatusBarToggle);
+            this.gbDynamic.Location = new System.Drawing.Point(3, 185);
+            this.gbDynamic.Name = "gbDynamic";
+            this.gbDynamic.Size = new System.Drawing.Size(379, 44);
+            this.gbDynamic.TabIndex = 20;
+            this.gbDynamic.TabStop = false;
+            this.gbDynamic.Text = "Dynamic Elements";
+            // 
+            // dynamicProgressBarToggle
+            // 
+            this.dynamicProgressBarToggle.AutoSize = true;
+            this.dynamicProgressBarToggle.Location = new System.Drawing.Point(207, 19);
+            this.dynamicProgressBarToggle.Name = "dynamicProgressBarToggle";
+            this.dynamicProgressBarToggle.Size = new System.Drawing.Size(166, 17);
+            this.dynamicProgressBarToggle.TabIndex = 20;
+            this.dynamicProgressBarToggle.Text = "&Enable Dynamic Progress Bar";
+            this.dynamicProgressBarToggle.UseVisualStyleBackColor = true;
+            // 
+            // dynamicStatusBarToggle
+            // 
+            this.dynamicStatusBarToggle.AutoSize = true;
+            this.dynamicStatusBarToggle.Location = new System.Drawing.Point(9, 19);
+            this.dynamicStatusBarToggle.Name = "dynamicStatusBarToggle";
+            this.dynamicStatusBarToggle.Size = new System.Drawing.Size(155, 17);
+            this.dynamicStatusBarToggle.TabIndex = 19;
+            this.dynamicStatusBarToggle.Text = "&Enable Dynamic Status Bar";
+            this.dynamicStatusBarToggle.UseVisualStyleBackColor = true;
+            // 
             // gbSearch
             // 
             this.gbSearch.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -147,7 +185,7 @@
             this.gbSearch.Controls.Add(this.lblDefaultSearchEngine);
             this.gbSearch.Location = new System.Drawing.Point(3, 122);
             this.gbSearch.Name = "gbSearch";
-            this.gbSearch.Size = new System.Drawing.Size(379, 65);
+            this.gbSearch.Size = new System.Drawing.Size(379, 61);
             this.gbSearch.TabIndex = 19;
             this.gbSearch.TabStop = false;
             this.gbSearch.Text = "Search Engine";
@@ -178,7 +216,7 @@
             // 
             this.gb.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.gb.Controls.Add(this.cbShowHomeButton);
+            this.gb.Controls.Add(this.showHomeButtonToggle);
             this.gb.Controls.Add(this.startupWithHomePageToggle);
             this.gb.Controls.Add(homePageLabel);
             this.gb.Controls.Add(useBlankAsHomePageButton);
@@ -191,15 +229,15 @@
             this.gb.TabStop = false;
             this.gb.Text = "Home Page";
             // 
-            // cbShowHomeButton
+            // showHomeButtonToggle
             // 
-            this.cbShowHomeButton.AutoSize = true;
-            this.cbShowHomeButton.Location = new System.Drawing.Point(75, 96);
-            this.cbShowHomeButton.Name = "cbShowHomeButton";
-            this.cbShowHomeButton.Size = new System.Drawing.Size(115, 17);
-            this.cbShowHomeButton.TabIndex = 18;
-            this.cbShowHomeButton.Text = "&Show home button";
-            this.cbShowHomeButton.UseVisualStyleBackColor = true;
+            this.showHomeButtonToggle.AutoSize = true;
+            this.showHomeButtonToggle.Location = new System.Drawing.Point(75, 96);
+            this.showHomeButtonToggle.Name = "showHomeButtonToggle";
+            this.showHomeButtonToggle.Size = new System.Drawing.Size(115, 17);
+            this.showHomeButtonToggle.TabIndex = 18;
+            this.showHomeButtonToggle.Text = "&Show home button";
+            this.showHomeButtonToggle.UseVisualStyleBackColor = true;
             // 
             // startupWithHomePageToggle
             // 
@@ -316,6 +354,8 @@
             this.Load += new System.EventHandler(this.OptionsDialogue_Load);
             this.tc.ResumeLayout(false);
             this.tpGeneral.ResumeLayout(false);
+            this.gbDynamic.ResumeLayout(false);
+            this.gbDynamic.PerformLayout();
             this.gbSearch.ResumeLayout(false);
             this.gbSearch.PerformLayout();
             this.gb.ResumeLayout(false);
@@ -333,7 +373,7 @@
         private System.Windows.Forms.TabControl tc;
         private System.Windows.Forms.TabPage tpGeneral;
         private System.Windows.Forms.GroupBox gb;
-        private System.Windows.Forms.CheckBox cbShowHomeButton;
+        private System.Windows.Forms.CheckBox showHomeButtonToggle;
         private System.Windows.Forms.CheckBox startupWithHomePageToggle;
         private System.Windows.Forms.TextBox homePageText;
         private System.Windows.Forms.Panel panel1;
@@ -346,5 +386,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.RadioButton rbUseProxy;
         private System.Windows.Forms.RadioButton rbNoUseProxy;
+        private System.Windows.Forms.GroupBox gbDynamic;
+        private System.Windows.Forms.CheckBox dynamicProgressBarToggle;
+        private System.Windows.Forms.CheckBox dynamicStatusBarToggle;
     }
 }

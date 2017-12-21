@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
-using SHDocVw;
 using System.IO;
 using System.Text.RegularExpressions;
-
+using MSHTML;
 namespace CS_Tabbed_Web_Browser
 {
-    public class WebBrowserCore : System.Windows.Forms.WebBrowser
+    public class WebBrowserCore : WebBrowser
     {
+        SHDocVw.WebBrowser xBrowser;
         public WebBrowserCore()
         {
             ScriptErrorsSuppressed = true;
@@ -24,35 +24,15 @@ namespace CS_Tabbed_Web_Browser
             {
                 WinInetInterop.RefreshIESettings(":");
             }
+            UrlMonInterop.ChangeUserAgent("Mozilla/5.0 (Windows NT 10.0; Trident/7.0; rv:11.0) like Gecko");
             IsWebBrowserContextMenuEnabled = false;
+            xBrowser = (SHDocVw.WebBrowser)ActiveXInstance;
+
         }
 
         public void NavigateWeb(string uri)
         {
-            Url = new Uri(uri);
-        }
-
-        public string ViewSource(string uri)
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
-            StreamReader sr = new StreamReader(response.GetResponseStream());
-            return sr.ReadToEnd();
-        }
-
-        public string RemoveHTML(string strHTML)
-        {
-            return Regex.Replace(strHTML, "<(.|\n)*?>", "");
-        }
-
-        protected override void OnNavigating(WebBrowserNavigatingEventArgs e)
-        {
-            base.OnNavigating(e);
-        }
-
-        protected override void OnDocumentCompleted(WebBrowserDocumentCompletedEventArgs e)
-        {
-            base.OnDocumentCompleted(e);
+            xBrowser.Navigate(uri);
         }
     }
 }

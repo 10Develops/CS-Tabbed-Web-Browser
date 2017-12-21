@@ -34,6 +34,8 @@
             this.btnCheck = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.lblPercent = new System.Windows.Forms.Label();
+            this.lblSize = new System.Windows.Forms.Label();
+            this.lblReceived = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // lblCurrentVersion
@@ -84,24 +86,47 @@
             // lblPercent
             // 
             this.lblPercent.AutoSize = true;
-            this.lblPercent.Location = new System.Drawing.Point(239, 86);
+            this.lblPercent.Location = new System.Drawing.Point(226, 86);
             this.lblPercent.Name = "lblPercent";
             this.lblPercent.Size = new System.Drawing.Size(15, 13);
             this.lblPercent.TabIndex = 5;
             this.lblPercent.Text = "%";
             this.lblPercent.Visible = false;
             // 
+            // lblSize
+            // 
+            this.lblSize.AutoSize = true;
+            this.lblSize.Location = new System.Drawing.Point(12, 114);
+            this.lblSize.Name = "lblSize";
+            this.lblSize.Size = new System.Drawing.Size(30, 13);
+            this.lblSize.TabIndex = 6;
+            this.lblSize.Text = "Size:";
+            this.lblSize.Visible = false;
+            // 
+            // lblReceived
+            // 
+            this.lblReceived.AutoSize = true;
+            this.lblReceived.Location = new System.Drawing.Point(131, 114);
+            this.lblReceived.Name = "lblReceived";
+            this.lblReceived.Size = new System.Drawing.Size(56, 13);
+            this.lblReceived.TabIndex = 7;
+            this.lblReceived.Text = "Received:";
+            this.lblReceived.Visible = false;
+            // 
             // UpdatesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(476, 135);
+            this.Controls.Add(this.lblReceived);
+            this.Controls.Add(this.lblSize);
             this.Controls.Add(this.lblPercent);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.btnCheck);
             this.Controls.Add(this.pbUpdate);
             this.Controls.Add(this.lblNewVersion);
             this.Controls.Add(this.lblCurrentVersion);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UpdatesForm";
@@ -121,5 +146,7 @@
         private System.Windows.Forms.Button btnCheck;
         private System.Windows.Forms.Button btnClose;
         private System.Windows.Forms.Label lblPercent;
+        private System.Windows.Forms.Label lblSize;
+        private System.Windows.Forms.Label lblReceived;
     }
 }

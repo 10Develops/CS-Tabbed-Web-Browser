@@ -103,5 +103,10 @@ namespace CS_Tabbed_Web_Browser
         {
             Close();
         }
+
+        private void AboutForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -142,5 +142,66 @@ namespace CS_Tabbed_Web_Browser.Properties {
                 this["UseProxy"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" />")]
+        public global::System.Collections.Specialized.StringCollection History {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["History"]));
+            }
+            set {
+                this["History"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowProgressBar {
+            get {
+                return ((bool)(this["ShowProgressBar"]));
+            }
+            set {
+                this["ShowProgressBar"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowStatusBar {
+            get {
+                return ((bool)(this["ShowStatusBar"]));
+            }
+            set {
+                this["ShowStatusBar"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableDynamicProgressBar {
+            get {
+                return ((bool)(this["EnableDynamicProgressBar"]));
+            }
+            set {
+                this["EnableDynamicProgressBar"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EnableDynamicStatusBar {
+            get {
+                return ((bool)(this["EnableDynamicStatusBar"]));
+            }
+            set {
+                this["EnableDynamicStatusBar"] = value;
+            }
+        }
     }
 }

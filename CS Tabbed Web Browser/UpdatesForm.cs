@@ -132,11 +132,28 @@ namespace CS_Tabbed_Web_Browser
         {
             lblPercent.Text = string.Format("{0} %", e.ProgressPercentage);
             pbUpdate.Value = e.ProgressPercentage;
+
+            lblSize.Visible = true;
+            lblSize.Text = BytesToString(e.TotalBytesToReceive);
+
+            lblReceived.Visible = true;
+            lblReceived.Text = BytesToString(e.BytesReceived);
         }
 
         private void btnClose_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        static String BytesToString(long byteCount)
+        {
+            string[] suf = { "B", "KB", "MB", "GB", "TB", "PB", "EB" }; //Longs run out around EB
+            if (byteCount == 0)
+                return "0" + suf[0];
+            long bytes = Math.Abs(byteCount);
+            int place = Convert.ToInt32(Math.Floor(Math.Log(bytes, 1024)));
+            double num = Math.Round(bytes / Math.Pow(1024, place), 1);
+            return (Math.Sign(byteCount) * num).ToString() + suf[place];
         }
     }
 }

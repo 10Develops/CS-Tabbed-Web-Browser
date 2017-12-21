@@ -46,18 +46,20 @@ namespace CS_Tabbed_Web_Browser
             // Load the current options
             this.homePageText.Text = Properties.Settings.Default.HomePage;
             this.startupWithHomePageToggle.Checked = Properties.Settings.Default.StartWithHomePage;
-            cbShowHomeButton.Checked = Properties.Settings.Default.ShowHomePage;
+            showHomeButtonToggle.Checked = Properties.Settings.Default.ShowHomePage;
+            dynamicStatusBarToggle.Checked = Properties.Settings.Default.ShowStatusBar;
+            dynamicProgressBarToggle.Checked = Properties.Settings.Default.ShowProgressBar;
             cbSearchEngine.SelectedIndex = Properties.Settings.Default.DefaultSearchEngine;
-                if(Properties.Settings.Default.UseProxy == true)
-                {
-                    rbUseProxy.Checked = true;
-                    tbProxy.Text = Properties.Settings.Default.Proxy;
-                }
-                else
-                {
-                    rbNoUseProxy.Checked = true;
-                    tbProxy.Enabled = false;
-                }
+            if(Properties.Settings.Default.UseProxy == true)
+            {
+                rbUseProxy.Checked = true;
+                tbProxy.Text = Properties.Settings.Default.Proxy;
+            }
+            else
+            {
+                rbNoUseProxy.Checked = true;
+                tbProxy.Enabled = false;
+            }
         }
 
         private void useCurrentAsHomePageButton_Click(object sender, EventArgs e)
@@ -75,7 +77,9 @@ namespace CS_Tabbed_Web_Browser
             // Save the new settings
             Properties.Settings.Default.HomePage = this.homePageText.Text;
             Properties.Settings.Default.StartWithHomePage = this.startupWithHomePageToggle.Checked;
-            Properties.Settings.Default.ShowHomePage = cbShowHomeButton.Checked;
+            Properties.Settings.Default.ShowHomePage = showHomeButtonToggle.Checked;
+            Properties.Settings.Default.EnableDynamicStatusBar = dynamicStatusBarToggle.Checked;
+            Properties.Settings.Default.EnableDynamicProgressBar = dynamicProgressBarToggle.Checked;
             Properties.Settings.Default.DefaultSearchEngine = cbSearchEngine.SelectedIndex;
             if(rbUseProxy.Checked == true)
             {
