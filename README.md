@@ -23,3 +23,4 @@ Version 0.2:
 * * Now Status bar can show other tab page status.
 * Fixed Home button.
 * Added shortcuts.
+* Added view source and console features in web pages.
