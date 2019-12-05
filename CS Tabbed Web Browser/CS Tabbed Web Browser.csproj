@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>CS_Tabbed_Web_Browser</RootNamespace>
     <AssemblyName>CS Tabbed Web Browser</AssemblyName>
-    <TargetFrameworkVersion>v4.7</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -92,9 +92,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-  <PropertyGroup>
-    <NoWin32Manifest>true</NoWin32Manifest>
-  </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ManifestCertificateThumbprint>FB1FD5D4AF21CAA5023F8F530A35E50FE3A5B89A</ManifestCertificateThumbprint>
   </PropertyGroup>
@@ -105,16 +103,20 @@
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>TabbedWebBrowser.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -128,81 +130,90 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutForm.cs">
+    <Compile Include="Windows\AboutForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutForm.Designer.cs">
+    <Compile Include="Windows\AboutForm.Designer.cs">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ConsoleForm.cs">
+    <Compile Include="Windows\ConsoleForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ConsoleForm.Designer.cs">
+    <Compile Include="Windows\ConsoleForm.Designer.cs">
       <DependentUpon>ConsoleForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="HistoryDialogue.cs">
+    <Compile Include="Windows\BookmarksDialogue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="HistoryDialogue.Designer.cs">
+    <Compile Include="Windows\BookmarksDialogue.Designer.cs">
+      <DependentUpon>BookmarksDialogue.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\HistoryDialogue.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Windows\HistoryDialogue.Designer.cs">
       <DependentUpon>HistoryDialogue.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.cs">
+    <Compile Include="Windows\MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainWindow.Designer.cs">
+    <Compile Include="Windows\MainWindow.Designer.cs">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="OptionsDialogue.cs">
+    <Compile Include="Windows\OptionsDialogue.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="OptionsDialogue.Designer.cs">
+    <Compile Include="Windows\OptionsDialogue.Designer.cs">
       <DependentUpon>OptionsDialogue.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UpdatesForm.cs">
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\UpdatesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="UpdatesForm.Designer.cs">
+    <Compile Include="Windows\UpdatesForm.Designer.cs">
       <DependentUpon>UpdatesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="UrlMonInterop.cs" />
-    <Compile Include="ViewSourceForm.cs">
+    <Compile Include="Classes\UrlMonInterop.cs" />
+    <Compile Include="Windows\ViewSourceForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ViewSourceForm.Designer.cs">
+    <Compile Include="Windows\ViewSourceForm.Designer.cs">
       <DependentUpon>ViewSourceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="WinInetInterop.cs" />
-    <EmbeddedResource Include="AboutForm.resx">
+    <Compile Include="Classes\WinInetInterop.cs" />
+    <EmbeddedResource Include="Windows\AboutForm.resx">
       <DependentUpon>AboutForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ConsoleForm.resx">
+    <EmbeddedResource Include="Windows\ConsoleForm.resx">
       <DependentUpon>ConsoleForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="HistoryDialogue.resx">
+    <EmbeddedResource Include="Windows\BookmarksDialogue.resx">
+      <DependentUpon>BookmarksDialogue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Windows\HistoryDialogue.resx">
       <DependentUpon>HistoryDialogue.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MainWindow.resx">
+    <EmbeddedResource Include="Windows\MainWindow.resx">
       <DependentUpon>MainWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="OptionsDialogue.resx">
+    <EmbeddedResource Include="Windows\OptionsDialogue.resx">
       <DependentUpon>OptionsDialogue.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <EmbeddedResource Include="UpdatesForm.resx">
+    <EmbeddedResource Include="Windows\UpdatesForm.resx">
       <DependentUpon>UpdatesForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ViewSourceForm.resx">
+    <EmbeddedResource Include="Windows\ViewSourceForm.resx">
       <DependentUpon>ViewSourceForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="App.config" />
@@ -215,13 +226,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="WebBrowserCore.cs">
+    <Compile Include="Classes\WebBrowserCore.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WebBrowserTabControl.cs">
+    <Compile Include="Classes\WebBrowserTabControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="WebBrowserTabPage.cs">
+    <Compile Include="Classes\WebBrowserTabPage.cs">
       <SubType>Component</SubType>
     </Compile>
   </ItemGroup>
@@ -237,7 +248,15 @@
     <None Include="Resources\optionsMenuItem.Image.png" />
     <None Include="Resources\searchGoogleMenuItem.Image.png" />
     <None Include="Resources\hamburgerMenuItem.Image.png" />
+    <None Include="Resources\bookmarkMenuItem.Image.png" />
     <Content Include="TabbedWebBrowser.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="MSHTML">
@@ -245,7 +264,7 @@
       <VersionMajor>4</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
-      <WrapperTool>tlbimp</WrapperTool>
+      <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
@@ -258,13 +277,6 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
-  </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
-      <Visible>False</Visible>
-      <ProductName>.NET Framework 3.5 SP1</ProductName>
-      <Install>false</Install>
-    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
