@@ -1,6 +1,6 @@
 Version 0.1:
 * Added search engines and proxy server features.
-* Updated .NET Framework version: 4.7.
+* Updated .NET Framework, version: 4.7.
 * Added update feature.
 * Changed status bar to dynamic.
 * Interface changes:
@@ -24,3 +24,10 @@ Version 0.2:
 * Fixed Home button.
 * Added shortcuts.
 * Added view source and console features in web pages.
+
+Version 0.3:
+* Now you can see the certificate of website
+* Bookmarks feature
+* Added autocompletation of website in address bar
+* Added new tab (+) button to the right from tabs
+* Updated .NET Framework, version: 4.8.
