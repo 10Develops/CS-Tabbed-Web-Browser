@@ -24,3 +24,9 @@ Version 0.2:
 * Fixed Home button.
 * Added shortcuts.
 * Added view source and console features in web pages.
+
+Version 0.3:
+* Now you can see the certificate of website
+* Bookmarks feature
+* Added autocompletation of website in address bar
+* Added new tab (+) button to the right from tabs
